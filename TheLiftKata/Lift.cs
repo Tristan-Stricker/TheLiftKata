@@ -21,6 +21,12 @@ namespace TheLiftKata
             EnsureNotOverloaded();
         }
 
+        internal void Unload(int destinationFloor)
+        {
+            var toRemove = Occupants.Where(occupant => occupant.DestinationFloor == destinationFloor);
+            occupants = Occupants.Except(toRemove).ToList();
+        }
+
         public void LoadFromQueue(PersonQueue queue, Direction direction)
         {
             var dequeued = queue.Dequeue(direction, capacity);

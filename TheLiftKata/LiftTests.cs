@@ -7,6 +7,21 @@ namespace TheLiftKata
     public class LiftTests
     {
         [Fact]
+        public void Person_Leaves_At_Destination_Floor()
+        {
+            // arrange
+            var firstFloor = 1;
+            var person = new Person(firstFloor, Direction.Down);
+            var lift = new Lift(5, startingOccupants: person);
+
+            // act
+            lift.Unload(firstFloor);
+
+            //assert
+            lift.Occupants.Should().NotContain(person);
+        }
+
+        [Fact]
         public void Person_Cannot_Enter_When_Going_In_Different_Direction()
         {
             // arrange 
@@ -68,16 +83,6 @@ namespace TheLiftKata
 
             //assert
             personQueue.Queue.Should().BeEmpty();
-        }
-
-        [Fact]
-        public void Test()
-        {
-            // arrange 
-
-            // act
-
-            //assert       
         }
     }
 }

@@ -21,7 +21,7 @@ public class PersonQueue
 
     public PersonQueue(int floor, int[] queue): this(
         floor,
-        queue.Select(destinationFloor => MakePerson(floor, destinationFloor)).ToArray())
+        queue.Select(destinationFloor => Person.Create(floor, destinationFloor)).ToArray())
     {
     }
 
@@ -30,30 +30,5 @@ public class PersonQueue
         var toLeave = queue.Where(person => person.TravelDirection == direction).Take(capacity);
         this.queue = queue.Except(toLeave).ToList();
         return toLeave;
-    }
-
-    private static Person MakePerson(int startingfloor, int endingFloor)
-    {
-        if(startingfloor > endingFloor)
-        {
-            return new Person(endingFloor, Direction.Down);
-        }
-        else if(startingfloor < endingFloor)
-        {
-            return new Person(endingFloor, Direction.Up);
-        }
-
-        throw new InvalidOperationException("Person wants to go to the same floor that they are on!");
-    }    
-}
-
-public record Person(int DestinationFloor, Direction TravelDirection)
-{
-    public Guid Id { get; init; } = Guid.NewGuid();
-}
-
-public enum Direction
-{
-    Up,
-    Down,
+    }  
 }
