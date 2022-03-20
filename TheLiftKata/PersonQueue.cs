@@ -10,44 +10,46 @@ public class PersonQueue
     private List<Person> queue;
     public static int[] Empty = Array.Empty<int>();
 
-    public ReadOnlyCollection<Person> Queue => this.queue.AsReadOnly();
+    public ReadOnlyCollection<Person> Queue => this.queue.ToList().AsReadOnly();
     public int Floor { get; }
 
-    public PersonQueue(int floor, int[] queue)
+    public PersonQueue(int floor, params Person[] people)
     {
         Floor = floor;
-        this.queue = queue.Select(destinationFloor => MakePerson(floor, destinationFloor)).ToList();
+        this.queue = people.ToList() ?? new List<Person>();
+    }
+
+    public PersonQueue(int floor, int[] queue): this(
+        floor,
+        queue.Select(destinationFloor => MakePerson(floor, destinationFloor)).ToArray())
+    {
+    }
+
+    internal IEnumerable<Person> Dequeue(Direction direction, int capacity)
+    {
+        var toLeave = queue.Where(person => person.TravelDirection == direction).Take(capacity);
+        this.queue = queue.Except(toLeave).ToList();
+        return toLeave;
     }
 
     private static Person MakePerson(int startingfloor, int endingFloor)
     {
         if(startingfloor > endingFloor)
         {
-            return new Person(startingfloor, Direction.Down);
+            return new Person(endingFloor, Direction.Down);
         }
         else if(startingfloor < endingFloor)
         {
-            return new Person(startingfloor, Direction.Up);
+            return new Person(endingFloor, Direction.Up);
         }
 
         throw new InvalidOperationException("Person wants to go to the same floor that they are on!");
     }    
 }
 
-public class Person
+public record Person(int DestinationFloor, Direction TravelDirection)
 {
-    public int DestinationFloor { get; }
-    public Direction TravelDirection { get; }
-
-    private Person()
-    {
-    }
-
-    public Person(int destinationFloor, Direction travelDirection)
-    {
-        DestinationFloor = destinationFloor;
-        TravelDirection = travelDirection;
-    }
+    public Guid Id { get; init; } = Guid.NewGuid();
 }
 
 public enum Direction
