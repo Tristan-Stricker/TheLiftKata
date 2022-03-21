@@ -21,10 +21,11 @@ namespace TheLiftKata
             EnsureNotOverloaded();
         }
 
-        internal void Unload(int destinationFloor)
+        internal bool Unload(int destinationFloor)
         {
             var toRemove = Occupants.Where(occupant => occupant.DestinationFloor == destinationFloor);
             occupants = Occupants.Except(toRemove).ToList();
+            return toRemove.Any();
         }
 
         public void LoadFromQueue(PersonQueue queue, Direction direction)
@@ -41,6 +42,8 @@ namespace TheLiftKata
                 throw new InvalidOperationException("Occupancy cannot exceed capacity");
             }
         }
+
+        public bool IsEmpty => !Occupants.Any();
 
         public ReadOnlyCollection<Person> Occupants => this.occupants.AsReadOnly();
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace TheLiftKata;
 
@@ -6,11 +7,21 @@ public class Dinglemouse
 {
     public static int[] TheLift(int[][] queues, int capacity)
     {
-        return PersonQueue.Empty;
-    }
+        var controller = new LiftController(queues, capacity);
 
-    private static bool IsAnythingToBeDone()
-    {
-        throw new NotImplementedException();
+        if(!controller.HasWorkToBeDone)
+        {
+            return new int[0];
+        }
+
+        while (controller.HasWorkToBeDone)
+        {
+            controller.Tick();
+            controller.Move();
+        }
+        controller.End();
+
+        return controller.VisitedFloors.ToArray();
+        //return PersonQueue.Empty;
     }
 }

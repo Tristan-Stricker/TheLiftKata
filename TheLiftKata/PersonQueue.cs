@@ -12,6 +12,7 @@ public class PersonQueue
 
     public ReadOnlyCollection<Person> Queue => this.queue.ToList().AsReadOnly();
     public int Floor { get; }
+    public bool IsAnyoneWaiting => Queue.Any();
 
     public PersonQueue(int floor, params Person[] people)
     {

@@ -6,8 +6,11 @@ public class LiftTestCases : TheoryData<LiftTestCase>
 {
     public LiftTestCases()
     {
+        Add(TestUp);
+        Add(TestUpAndUp);
         Add(TestDown);
         Add(TestDownAndDown);
+
         Add(TestEmpty);
         Add(TestEnterOnGroundFloor);
         Add(TestFireDrill);
@@ -16,12 +19,10 @@ public class LiftTestCases : TheoryData<LiftTestCase>
         Add(TestLiftFullUp);
         Add(TestLiftFullUpAndDown);
         Add(TestTrickyQueues);
-        Add(TestUp);
-        Add(TestUpAndUp);
         Add(TestYoYo);
     }
 
-    private readonly LiftTestCase TestYoYo = new()
+    public readonly LiftTestCase TestYoYo = new()
     {
         Name = nameof(TestYoYo),
         Capacity = 2,
@@ -38,7 +39,7 @@ public class LiftTestCases : TheoryData<LiftTestCase>
         Output = new[] { 0, 2, 4, 2, 4, 2, 0 }
     };
 
-    private readonly LiftTestCase TestUpAndUp = new()
+    public readonly LiftTestCase TestUpAndUp = new()
     {
         Name = nameof(TestUpAndUp),
         Capacity = 5,
@@ -55,7 +56,7 @@ public class LiftTestCases : TheoryData<LiftTestCase>
         Output = new[] { 0, 1, 2, 3, 4, 5, 0 }
     };
 
-    private readonly LiftTestCase TestUpAndDown = new()
+    public readonly LiftTestCase TestUpAndDown = new()
     {
         Name = nameof(TestUpAndDown),
         Capacity = 5,
@@ -72,7 +73,7 @@ public class LiftTestCases : TheoryData<LiftTestCase>
         Output = new[] { 0, 1, 2, 3, 6, 5, 3, 2, 0 }
     };
 
-    private readonly LiftTestCase TestUp = new()
+    public readonly LiftTestCase TestUp = new()
     {
         Name = nameof(TestUp),
         Capacity = 5,
@@ -89,7 +90,7 @@ public class LiftTestCases : TheoryData<LiftTestCase>
         Output = new[] { 0, 2, 5, 0 }
     };
 
-    private readonly LiftTestCase TestTrickyQueues = new()
+    public readonly LiftTestCase TestTrickyQueues = new()
     {
         Name = nameof(TestTrickyQueues),
         Capacity = 5,
@@ -106,7 +107,7 @@ public class LiftTestCases : TheoryData<LiftTestCase>
         Output = new[] { 0, 1, 5, 6, 5, 1, 0, 1, 0 }
     };
 
-    private readonly LiftTestCase TestLiftFullUpAndDown = new()
+    public readonly LiftTestCase TestLiftFullUpAndDown = new()
     {
         Name = nameof(TestLiftFullUpAndDown),
         Capacity = 5,
@@ -123,7 +124,7 @@ public class LiftTestCases : TheoryData<LiftTestCase>
         Output = new[] { 0, 3, 5, 4, 0, 3, 5, 4, 0 }
     };
 
-    private readonly LiftTestCase TestLiftFullUp = new()
+    public readonly LiftTestCase TestLiftFullUp = new()
     {
         Name = nameof(TestLiftFullUp),
         Capacity = 5,
@@ -140,7 +141,7 @@ public class LiftTestCases : TheoryData<LiftTestCase>
         Output = new[] { 0, 3, 0, 3, 0 }
     };
 
-    private readonly LiftTestCase TestLiftFullDown = new()
+    public readonly LiftTestCase TestLiftFullDown = new()
     {
         Name = nameof(TestLiftFullDown),
         Capacity = 5,
@@ -157,7 +158,7 @@ public class LiftTestCases : TheoryData<LiftTestCase>
         Output = new[] { 0, 3, 1, 3, 1, 3, 1, 0 }
     };
 
-    private readonly LiftTestCase TestDown = new()
+    public readonly LiftTestCase TestDown = new()
     {
         Name = nameof(TestDown),
         Capacity = 5,
@@ -174,7 +175,7 @@ public class LiftTestCases : TheoryData<LiftTestCase>
         Output = new[] { 0, 2, 1, 0 }
     };
 
-    private readonly LiftTestCase TestDownAndDown = new()
+    public readonly LiftTestCase TestDownAndDown = new()
     {
         Name = nameof(TestDownAndDown),
         Capacity = 5,
@@ -188,10 +189,10 @@ public class LiftTestCases : TheoryData<LiftTestCase>
             new int[]{3},
             PersonQueue.Empty,
         },
-        Output = new[] { 0, 5, 4, 3, 2, 0 }
+        Output = new[] { 0, 5, 4, 3, 2, 1, 0 }
     };
 
-    private readonly LiftTestCase TestEmpty = new()
+    public readonly LiftTestCase TestEmpty = new()
     {
         Name = nameof(TestEmpty),
         Capacity = 5,
@@ -205,10 +206,10 @@ public class LiftTestCases : TheoryData<LiftTestCase>
             PersonQueue.Empty,
             PersonQueue.Empty,
         },
-        Output = PersonQueue.Empty
+        Output = new int[0]
     };
 
-    private readonly LiftTestCase TestEnterOnGroundFloor = new()
+    public readonly LiftTestCase TestEnterOnGroundFloor = new()
     {
         Name = nameof(TestEnterOnGroundFloor),
         Capacity = 5,
@@ -225,7 +226,7 @@ public class LiftTestCases : TheoryData<LiftTestCase>
         Output = new[] { 0, 1, 2, 3, 4, 0 }
     };
 
-    private readonly LiftTestCase TestFireDrill = new()
+    public readonly LiftTestCase TestFireDrill = new()
     {
         Name = nameof(TestFireDrill),
         Capacity = 5,
@@ -242,7 +243,7 @@ public class LiftTestCases : TheoryData<LiftTestCase>
         Output = new[] { 0, 6, 5, 4, 3, 2, 1, 0, 5, 4, 3, 2, 1, 0, 4, 3, 2, 1, 0, 3, 2, 1, 0, 1, 0 }
     };
 
-    private readonly LiftTestCase TestHighlander = new()
+    public readonly LiftTestCase TestHighlander = new()
     {
         Name = nameof(TestHighlander),
         Capacity = 1,
