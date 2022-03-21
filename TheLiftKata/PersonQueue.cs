@@ -20,7 +20,7 @@ public class PersonQueue
         this.queue = people.ToList() ?? new List<Person>();
     }
 
-    public PersonQueue(int floor, int[] queue): this(
+    public PersonQueue(int floor, int[] queue) : this(
         floor,
         queue.Select(destinationFloor => Person.Create(floor, destinationFloor)).ToArray())
     {
@@ -31,5 +31,5 @@ public class PersonQueue
         var toLeave = queue.Where(person => person.TravelDirection == direction).Take(capacity);
         this.queue = queue.Except(toLeave).ToList();
         return toLeave;
-    }  
+    }
 }

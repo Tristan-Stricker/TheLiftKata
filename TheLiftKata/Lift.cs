@@ -9,9 +9,9 @@ namespace TheLiftKata
     {
         private readonly int maximumCapcity;
 
-        private int capacity => maximumCapcity - Occupants.Count;
+        private int Capacity => maximumCapcity - Occupants.Count;
 
-        private List<Person> occupants = new List<Person>();
+        private List<Person> occupants = new();
 
 
         public Lift(int capacity, params Person[] startingOccupants)
@@ -30,14 +30,14 @@ namespace TheLiftKata
 
         public void LoadFromQueue(PersonQueue queue, Direction direction)
         {
-            var dequeued = queue.Dequeue(direction, capacity);
+            var dequeued = queue.Dequeue(direction, Capacity);
             this.occupants.AddRange(dequeued);
             EnsureNotOverloaded();
         }
 
         private void EnsureNotOverloaded()
         {
-            if(Occupants.Count > maximumCapcity)
+            if (Occupants.Count > maximumCapcity)
             {
                 throw new InvalidOperationException("Occupancy cannot exceed capacity");
             }

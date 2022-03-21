@@ -8,40 +8,64 @@ namespace TheLiftKata
     internal class LiftController
     {
         private List<int> visitedFloors = new() { 0 };
-        private PersonQueue[] queues;
+        private readonly PersonQueue[] queues;
         private Lift lift;
 
         public LiftController(int[][] queuesArray, int capacity)
         {
-            this.queues  = queuesArray.Select((queue, floor) => new PersonQueue(floor, queue)).ToArray();
+            this.queues = queuesArray.Select((queue, floor) => new PersonQueue(floor, queue)).ToArray();
             this.lift = new Lift(capacity);
         }
 
         public void Tick()
         {
-            if (lift.IsEmpty && IsAnyoneWaitingToGoDown)
+            var floorQueue = queues[floor];
+            var anyoneOnFloorWaiting = floorQueue.Queue.Any(p => p.TravelDirection == direction);
+
+            var anyUnloaded = lift.Unload(floor);
+            lift.LoadFromQueue(floorQueue, direction);
+
+            if ((anyoneOnFloorWaiting || anyUnloaded) && !IsChangingDirection())
+            {
+                visitedFloors.Add(floor);
+            }
+        }
+
+      
+        private void DecideDirection()
+        {
+            if (IsOnTop && direction == Direction.Up)
+            {
+                direction = Direction.Down;
+            }
+            else if (IsAtGround && direction == Direction.Down)
+            {
+                direction = Direction.Up;
+            }
+        }
+
+        public void RunToEnd()
+        {
+            if (!HasWorkToBeDone)
             {
                 return;
             }
 
-            var floorQueue = queues[Floor];
-            var anyoneOnFloorWaiting = floorQueue.IsAnyoneWaiting;
-
-            var anyUnloaded = lift.Unload(Floor);
-            lift.LoadFromQueue(floorQueue, Direction);
-
-            if ((anyoneOnFloorWaiting || anyUnloaded) && !IsPriorFloor(Floor))
+            while (HasWorkToBeDone)
             {
-                visitedFloors.Add(Floor);
+                DecideDirection();
+                Tick();
+                Move();
             }
 
-            if (IsOnTop && Direction == Direction.Up)
+            ReturnToGround();
+        }
+
+        private void ReturnToGround()
+        {
+            if (floor > 0)
             {
-                Direction = Direction.Down;
-            }
-            else if (IsAtGround && Direction == Direction.Down)
-            {
-                Direction = Direction.Up;
+                visitedFloors.Add(0);
             }
         }
 
@@ -49,22 +73,10 @@ namespace TheLiftKata
         {
             if (HasWorkToBeDone)
             {
-                Floor += (Direction == Direction.Up) ? 1 : -1;
+                floor += (direction == Direction.Up) ? 1 : -1;
             }
         }
-
-        public void End()
-        {
-            if (HasWorkToBeDone)
-            {
-                throw new InvalidOperationException("Cannot end. Work to be done");
-            }
-
-            if(Floor > 0)
-            {
-                visitedFloors.Add(0);
-            }
-        }
+      
 
         public bool HasWorkToBeDone => IsAnyoneWaiting || AnyoneOnboard;
 
@@ -72,27 +84,22 @@ namespace TheLiftKata
 
         private bool IsAnyoneWaiting => queues.Any(queue => queue.IsAnyoneWaiting);
 
-        private bool IsAnyoneWaitingToGoDown => 
-            queues
-            .Where(queue => queue.Floor > Floor)
-            .Any(q => q.Queue.Any(d => d.TravelDirection == Direction.Down));
-
-        public Direction Direction { get; private set; } = Direction.Up;
-        public int Floor { get; private set; }
+        private Direction direction = Direction.Up;
+        private int floor;
 
         public ReadOnlyCollection<int> VisitedFloors => visitedFloors.AsReadOnly();
 
-        private bool IsOnTop => Floor == queues.Length - 1;
-        private bool IsAtGround => Floor == 0;
+        private bool IsOnTop => floor == queues.Length - 1;
+        private bool IsAtGround => floor == 0;
 
-        private bool IsPriorFloor(int current)
+        private bool IsChangingDirection()
         {
             if (!visitedFloors.Any())
             {
                 return true;
             }
 
-            return visitedFloors.Last() == current;
+            return visitedFloors.Last() == floor;
         }
     }
 }

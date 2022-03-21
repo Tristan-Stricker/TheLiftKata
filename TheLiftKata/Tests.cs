@@ -5,7 +5,7 @@ namespace TheLiftKata;
 
 public class Tests
 {
-    private readonly LiftTestCases TestCases = new ();
+    private readonly LiftTestCases TestCases = new();
     public Tests()
     {
 
@@ -52,5 +52,53 @@ public class Tests
     public void Empty()
     {
         Verify(TestCases.TestEmpty);
+    }
+
+    [Fact]
+    public void EnterOnGroundFloor()
+    {
+        Verify(TestCases.TestEnterOnGroundFloor);
+    }
+
+    [Fact]
+    public void Highlander()
+    {
+        Verify(TestCases.TestHighlander);
+    }
+
+    [Fact]
+    public void FullDown()
+    {
+        Verify(TestCases.TestLiftFullDown);
+    }
+
+    [Fact]
+    public void FullUp()
+    {
+        Verify(TestCases.TestLiftFullUp);
+    }
+
+    [Fact]
+    public void FireDrill()
+    {
+        Verify(TestCases.TestFireDrill);
+    }
+
+    [Fact]
+    public void FullUpAndDown()
+    {
+        Verify(TestCases.TestLiftFullUpAndDown);
+    }
+
+    [Fact]
+    public void TrickyQueues()
+    {
+        Verify(TestCases.TestTrickyQueues);
+    }
+
+    [Fact]
+    public void YoYo()
+    {
+        Verify(TestCases.TestYoYo);
     }
 }

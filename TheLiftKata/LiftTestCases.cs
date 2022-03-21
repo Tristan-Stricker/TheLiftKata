@@ -10,15 +10,15 @@ public class LiftTestCases : TheoryData<LiftTestCase>
         Add(TestUpAndUp);
         Add(TestDown);
         Add(TestDownAndDown);
-
         Add(TestEmpty);
         Add(TestEnterOnGroundFloor);
-        Add(TestFireDrill);
         Add(TestHighlander);
         Add(TestLiftFullDown);
         Add(TestLiftFullUp);
+        Add(TestFireDrill);
         Add(TestLiftFullUpAndDown);
         Add(TestTrickyQueues);
+
         Add(TestYoYo);
     }
 
@@ -206,7 +206,7 @@ public class LiftTestCases : TheoryData<LiftTestCase>
             PersonQueue.Empty,
             PersonQueue.Empty,
         },
-        Output = new int[0]
+        Output = new[] {0}
     };
 
     public readonly LiftTestCase TestEnterOnGroundFloor = new()
@@ -250,9 +250,9 @@ public class LiftTestCases : TheoryData<LiftTestCase>
         Input = new int[][]
         {
             PersonQueue.Empty,
-            new int[]{2},       
-            new int[]{3,3,3},   
-            new int[]{1},       
+            new int[]{2},
+            new int[]{3,3,3},
+            new int[]{1},
             PersonQueue.Empty,
             PersonQueue.Empty,
             PersonQueue.Empty,
